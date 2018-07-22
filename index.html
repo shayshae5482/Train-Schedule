@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Train Time</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+        crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="assets/style.css">
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h1 class="display-4">Train Schedule</h1>
+        <h4>Choo Choo!</h4>
+    </div>
+
+    <div class="grid-container">
+        <h5>Current Train Schedule</h5>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <strong>Train Name</strong>
+        </div>
+        <div class="col">
+            <strong>Destination</strong>
+        </div>
+        <div class="col">
+            <strong>Frequency (min)</strong>
+        </div>
+        <div class="col">
+            <strong>Next Arrival</strong>
+        </div>
+        <div class="col">
+            <strong>Minutes Away</strong>
+        </div>
+    </div>
+
+    <br>
+    <!--First list-->
+    <div class="row">
+        <div class="col">Trenton Express</div>
+        <div class="col">Trenton</div>
+        <div class="col">25</div>
+        <div class="col">05:35 PM</div>
+        <div class="col">10</div>
+    </div>
+
+    <br>
+    <!--Second list-->
+    <div class="row">
+        <div class="col">Orgeon Trail</div>
+        <div class="col">Salem, Orgeon</div>
+        <div class="col">3600</div>
+        <div class="col">01:39 PM</div>
+        <div class="col">1154</div>
+    </div>
+
+    <br>
+    <!--Third list-->
+    <div class="row">
+        <div class="col">Midnight Carriage</div>
+        <div class="col">Philadelphia</div>
+        <div class="col">15</div>
+        <div class="col">05:35 PM</div>
+        <div class="col">10</div>
+    </div>
+
+
+    <br>
+    <!--Fourth list-->
+    <div class="row">
+        <div class="col">Sing Sing Caravan</div>
+        <div class="col">Atlanta</div>
+        <div class="col">45</div>
+        <div class="col">05:53 PM</div>
+        <div class="col">28</div>
+    </div>
+
+    <!--Second container-->
+    <br>
+    <br>
+
+    <div class="grid-container">
+        <h5>Add Train</h5>
+    </div>
+
+    <br>
+    <strong>Train Name</strong>
+    <br>
+    <input class="form-control" type="text">
+    <br>
+    <br>
+    <strong>Destination</strong>
+    <br>
+    <input class="form-control" type="text">
+
+    <br>
+    <br>
+    <strong>First Train Time (HH:mm - military time)</strong>
+    <br>
+    <input class="form-control" type="text">
+
+    <br>
+    <br>
+    <strong>Frequency (min)</strong>
+    <br>
+    <input class="form-control" type="text">
+    <br>
+    <br>
+    <button type="button" class="btn btn-primary">Submit</button>
+
+
+    </div>
+
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery.js"></script>
+
+    <!--Firebase link-->
+
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDRNIDzLyEPiiB9Bxpp8xOddhsdvdinlDk",
+            authDomain: "test-da62d.firebaseapp.com",
+            databaseURL: "https://test-da62d.firebaseio.com",
+            projectId: "test-da62d",
+            storageBucket: "test-da62d.appspot.com",
+            messagingSenderId: "230769758471"
+        };
+        firebase.initializeApp(config);
+
+        firebase.initializeApp(config);
+        var database = firebase.database()
+
+        // Create a variable to reference the database
+        var trainName = "";
+        var destination = "";
+        var firstTrainTime = "";
+        var frequency = "";
+
+    
+
+        // On click event for submit button
+        $("#add-user").on("click", function (event) {
+            // Don't refresh the page!
+            event.preventDefault();
+
+});
+
+trainName = $("#name-input").val().trim();
+      age = $("#age-input").val().trim();
+      Email = $("#email-input").val().trim();
+      comment = $("#comment-input").val().trim();
+
+      // Don't forget to provide initial data to your Firebase database.
+
+      database.ref().set({
+        name: name,
+        age: age,
+        email: email,
+        comment: comment
+
+      });
+
+    </script>
+</body>
+
+</html>
