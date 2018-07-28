@@ -15,6 +15,7 @@
     <div class="jumbotron">
         <h1 class="display-4">Train Schedule</h1>
         <h4>Choo Choo!</h4>
+        <p id="time"> </p>
     </div>
 
     <div class="grid-container">
@@ -79,6 +80,16 @@
         <div class="col">05:53 PM</div>
         <div class="col">28</div>
     </div>
+<br>
+<div class ="updated-info">
+
+</div>
+
+<div class="delete-info">
+
+
+</div>
+
 
     <!--Second container-->
     <br>
@@ -91,27 +102,32 @@
     <br>
     <strong>Train Name</strong>
     <br>
-    <input class="form-control" type="text">
-    <br>
-    <br>
-    <strong>Destination</strong>
-    <br>
-    <input class="form-control" type="text">
+    <div>
+        <form action="/action_page.php">
+            <input type="text" id="tname">
+            <br>
+            <br>
+            <strong>Destination</strong>
+            <br>
+            <form>
+                <input type="text" id="des" placeholder=>
 
-    <br>
-    <br>
-    <strong>First Train Time (HH:mm - military time)</strong>
-    <br>
-    <input class="form-control" type="text">
+                <br>
+                <br>
+                <strong>First Train Time (HH:mm - military time)</strong>
+                <br>
+                <form action="/action_page.php">
+                    <input type="text" id="first-train-time">
 
-    <br>
-    <br>
-    <strong>Frequency (min)</strong>
-    <br>
-    <input class="form-control" type="text">
-    <br>
-    <br>
-    <button type="button" class="btn btn-primary">Submit</button>
+                    <br>
+                    <br>
+                    <strong>Frequency (min)</strong>
+                    <br>
+                    <form action="/action_page.php">
+                        <input type="text" id="minutes">
+                        <br>
+                        <br>
+                        <button type="button" class="btn btn-primary" id="user-input">Submit</button>
 
 
     </div>
@@ -119,54 +135,123 @@
     <!--JQuery-->
     <script src="https://code.jquery.com/jquery.js"></script>
 
+    <!--momentjs link-->
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+
     <!--Firebase link-->
 
-    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
 
     <script>
-        // Initialize Firebase
-        var config = {
-            apiKey: "AIzaSyDRNIDzLyEPiiB9Bxpp8xOddhsdvdinlDk",
-            authDomain: "test-da62d.firebaseapp.com",
-            databaseURL: "https://test-da62d.firebaseio.com",
-            projectId: "test-da62d",
-            storageBucket: "test-da62d.appspot.com",
-            messagingSenderId: "230769758471"
-        };
-        firebase.initializeApp(config);
+        $(document).ready(function () {
 
-        firebase.initializeApp(config);
-        var database = firebase.database()
+            var time = moment();
 
-        // Create a variable to reference the database
-        var trainName = "";
-        var destination = "";
-        var firstTrainTime = "";
-        var frequency = "";
+            $('#time').html("The current time is: " + moment(time).format("hh:mm"));
 
-    
+            var initialInput;
+            var submitData
 
-        // On click event for submit button
-        $("#add-user").on("click", function (event) {
-            // Don't refresh the page!
-            event.preventDefault();
+            var destination
+            var firstTrainTime
+            var frequency
+            var trainName
+
+
+
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyDRNIDzLyEPiiB9Bxpp8xOddhsdvdinlDk",
+                authDomain: "test-da62d.firebaseapp.com",
+                databaseURL: "https://test-da62d.firebaseio.com",
+                projectId: "test-da62d",
+                storageBucket: "test-da62d.appspot.com",
+                messagingSenderId: "230769758471"
+            };
+            firebase.initializeApp(config);
+
+
+
+            var database = firebase.database()
+
+            // Create a variable to reference the database
+
+
+
+            // On click event for submit button
+            $("#user-input").on("click", function (event) {
+                // Don't refresh the page!
+                event.preventDefault();
+
+                trainName = $("#tname").val().trim();
+                destination = $("#des").val().trim();
+                firstTrainTime = $("#first-train-time").val().trim();
+                frequency = $("#minutes").val().trim();
+
+
+
+
+                // Give Firebase the variables so it knows what to track
+
+                database.ref().push({
+                    trainName: trainName,
+                    destination: destination,
+                    firstTrainTime: firstTrainTime,
+                    frequency: frequency
+
+                });
+            });
+
+            // Add each new entry to the root of the firebase as a function//
+            database.ref().on("child_added", function (childSnapshot) {
+
+//make sure code is working correctly
+                console.log(childSnapshot.val());
+
+                //new variables to help store new data in the database
+
+                var tname = childSnapshot.val().tname;
+                var destination = childSnapshot.val().destination;
+                var frequency = childSnapshot.val().frequency;
+                var time = childSnapshot.val().time;
+
+                //create a new row of inputs in firebase root
+                var removeData = "<button class='delete-button' id='removeData' value= 'delete' onclick='deleteRow(this)'>Delete?<button>"
+
+
+//Begin the time conversion stuff here!//
+
+                var trainTimeConverted = moment(time, "hh:mm").subtract(1, "years");
+                var trainTimeDiff = moment().diff(moment(trainTimeConverted), "minutes");
+                //Calculates how often the train arrives
+
+                var timeLeft = trainTimeDiff % frequency;
+
+                var minutesToNxtTrain = frequency - timeLeft;
+
+                var nextTrainMin = moment().add(minutesToNxtTrain, "minutes");
+                var nextTrainArrives = moment(nextTrainMin).format("hh:mm");
+
+
+//Use jquery to add the calculations to the html//
+
+ $('.updated-info').prepend("<tr><td>" + tname + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + nextTrainArrives + "</td><td>" + minutesToNxtTrain + "</td><td>" + removeData + "</td></tr>");
+
+$(".delete-info").on("click", function () {
+
+    $(this).closest("tr").remove();
+    var survey = database.ref(path + '/' + path);
+    survey.child(key).remove();
 
 });
 
-trainName = $("#name-input").val().trim();
-      age = $("#age-input").val().trim();
-      Email = $("#email-input").val().trim();
-      comment = $("#comment-input").val().trim();
+})
 
-      // Don't forget to provide initial data to your Firebase database.
 
-      database.ref().set({
-        name: name,
-        age: age,
-        email: email,
-        comment: comment
 
-      });
+});
+
+       
 
     </script>
 </body>

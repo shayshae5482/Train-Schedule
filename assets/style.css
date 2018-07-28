@@ -5,6 +5,7 @@ body {
 .jumbotron {
 text-align: center;
 font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+border:1px;
 }
 
 .grid-container {
@@ -14,7 +15,8 @@ font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans
     padding: 10px;
     color: white;
     height: 50px;
-    
+    border: 10px;
+    border-color: black;
     
 
 }
@@ -30,4 +32,14 @@ font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans
     grid-column-start: 1;
   grid-column-end: 6;
   
+}
+
+input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
