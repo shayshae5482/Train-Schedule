@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Train Time</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+        crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="assets/style.css">
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h1 class="display-4">Train Schedule</h1>
+        <h4>Choo Choo!</h4>
+        <p id="time"> </p>
+    </div>
+
+    <div class="grid-container">
+        <h5>Current Train Schedule</h5>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <strong>Train Name</strong>
+        </div>
+        <div class="col">
+            <strong>Destination</strong>
+        </div>
+        <div class="col">
+            <strong>Frequency (min)</strong>
+        </div>
+        <div class="col">
+            <strong>Next Arrival</strong>
+        </div>
+        <div class="col">
+            <strong>Minutes Away</strong>
+        </div>
+    </div>
+
+    <br>
+    <!--First list-->
+    <div class="row">
+        <div class="col">Trenton Express</div>
+        <div class="col">Trenton</div>
+        <div class="col">25</div>
+        <div class="col">05:35 PM</div>
+        <div class="col">10</div>
+    </div>
+
+    <br>
+    <!--Second list-->
+    <div class="row">
+        <div class="col">Orgeon Trail</div>
+        <div class="col">Salem, Orgeon</div>
+        <div class="col">3600</div>
+        <div class="col">01:39 PM</div>
+        <div class="col">1154</div>
+    </div>
+
+    <br>
+    <!--Third list-->
+    <div class="row">
+        <div class="col">Midnight Carriage</div>
+        <div class="col">Philadelphia</div>
+        <div class="col">15</div>
+        <div class="col">05:35 PM</div>
+        <div class="col">10</div>
+    </div>
+
+
+    <br>
+    <!--Fourth list-->
+    <div class="row">
+        <div class="col">Sing Sing Caravan</div>
+        <div class="col">Atlanta</div>
+        <div class="col">45</div>
+        <div class="col">05:53 PM</div>
+        <div class="col">28</div>
+    </div>
+<br>
+<div class ="updated-info">
+
+</div>
+
+<div class="delete-info">
+
+
+</div>
+
+
+    <!--Second container-->
+    <br>
+    <br>
+
+    <div class="grid-container">
+        <h5>Add Train</h5>
+    </div>
+
+    <br>
+    <strong>Train Name</strong>
+    <br>
+    <div>
+        <form action="/action_page.php">
+            <input type="text" id="tname">
+            <br>
+            <br>
+            <strong>Destination</strong>
+            <br>
+            <form>
+                <input type="text" id="des" placeholder=>
+
+                <br>
+                <br>
+                <strong>First Train Time (HH:mm - military time)</strong>
+                <br>
+                <form action="/action_page.php">
+                    <input type="text" id="first-train-time">
+
+                    <br>
+                    <br>
+                    <strong>Frequency (min)</strong>
+                    <br>
+                    <form action="/action_page.php">
+                        <input type="text" id="minutes">
+                        <br>
+                        <br>
+                        <button type="button" class="btn btn-primary" id="user-input">Submit</button>
+
+
+    </div>
+
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery.js"></script>
+
+    <!--momentjs link-->
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+
+    <!--Firebase link-->
+
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            var time = moment();
+
+            $('#time').html("The current time is: " + moment(time).format("hh:mm"));
+
+            var initialInput;
+            var submitData
+
+            var destination
+            var firstTrainTime
+            var frequency
+            var trainName
+
+
+
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyDRNIDzLyEPiiB9Bxpp8xOddhsdvdinlDk",
+                authDomain: "test-da62d.firebaseapp.com",
+                databaseURL: "https://test-da62d.firebaseio.com",
+                projectId: "test-da62d",
+                storageBucket: "test-da62d.appspot.com",
+                messagingSenderId: "230769758471"
+            };
+            firebase.initializeApp(config);
+
+
+
+            var database = firebase.database()
+
+            // Create a variable to reference the database
+
+
+
+            // On click event for submit button
+            $("#user-input").on("click", function (event) {
+                // Don't refresh the page!
+                event.preventDefault();
+
+                trainName = $("#tname").val().trim();
+                destination = $("#des").val().trim();
+                firstTrainTime = $("#first-train-time").val().trim();
+                frequency = $("#minutes").val().trim();
+
+
+
+
+                // Give Firebase the variables so it knows what to track
+
+                database.ref().push({
+                    trainName: trainName,
+                    destination: destination,
+                    firstTrainTime: firstTrainTime,
+                    frequency: frequency
+
+                });
+            });
+
+            // Add each new entry to the root of the firebase as a function//
+            database.ref().on("child_added", function (childSnapshot) {
+
+//make sure code is working correctly
+                console.log(childSnapshot.val());
+
+                //new variables to help store new data in the database
+
+                var tname = childSnapshot.val().tname;
+                var destination = childSnapshot.val().destination;
+                var frequency = childSnapshot.val().frequency;
+                var time = childSnapshot.val().time;
+
+                //create a new row of inputs in firebase root
+                var removeData = "<button class='delete-button' id='removeData' value= 'delete' onclick='deleteRow(this)'>Delete?<button>"
+
+
+//Begin the time conversion stuff here!//
+
+                var trainTimeConverted = moment(time, "hh:mm").subtract(1, "years");
+                var trainTimeDiff = moment().diff(moment(trainTimeConverted), "minutes");
+                //Calculates how often the train arrives
+
+                var timeLeft = trainTimeDiff % frequency;
+
+                var minutesToNxtTrain = frequency - timeLeft;
+
+                var nextTrainMin = moment().add(minutesToNxtTrain, "minutes");
+                var nextTrainArrives = moment(nextTrainMin).format("hh:mm");
+
+
+//Use jquery to add the calculations to the html//
+
+ $('.updated-info').prepend("<tr><td>" + tname + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + nextTrainArrives + "</td><td>" + minutesToNxtTrain + "</td><td>" + removeData + "</td></tr>");
+
+$(".delete-info").on("click", function () {
+
+    $(this).closest("tr").remove();
+    var survey = database.ref(path + '/' + path);
+    survey.child(key).remove();
+
+});
+
+})
+
+
+
+});
+
+       
+
+    </script>
+</body>
+
+</html>
