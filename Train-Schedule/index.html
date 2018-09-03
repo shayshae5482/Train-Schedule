@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Train Time</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+        crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="assets/style.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h1 class="display-4">Train Schedule</h1>
+        <h4>Choo Choo!</h4>
+        <p id="time"> </p>
+    </div>
+
+    <div class="grid-container">
+        <h5>Current Train Schedule</h5>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <strong>Train Name</strong>
+        </div>
+        <div class="col">
+            <strong>Destination</strong>
+        </div>
+        <div class="col">
+            <strong>Frequency (min)</strong>
+        </div>
+        <div class="col">
+            <strong>Next Arrival</strong>
+        </div>
+        <div class="col">
+            <strong>Minutes Away</strong>
+        </div>
+    </div>
+
+    <br>
+    <!--First list-->
+    <div class="row">
+        <div class="col">Trenton Express</div>
+        <div class="col">Trenton</div>
+        <div class="col">25</div>
+        <div class="col">05:35 PM</div>
+        <div class="col">10</div>
+    </div>
+
+    <br>
+    <!--Second list-->
+    <div class="row">
+        <div class="col">Orgeon Trail</div>
+        <div class="col">Salem, Orgeon</div>
+        <div class="col">3600</div>
+        <div class="col">01:39 PM</div>
+        <div class="col">1154</div>
+    </div>
+
+    <br>
+    <!--Third list-->
+    <div class="row">
+        <div class="col">Midnight Carriage</div>
+        <div class="col">Philadelphia</div>
+        <div class="col">15</div>
+        <div class="col">05:35 PM</div>
+        <div class="col">10</div>
+    </div>
+
+
+    <br>
+    <!--Fourth list-->
+    <div class="row">
+        <div class="col">Sing Sing Caravan</div>
+        <div class="col">Atlanta</div>
+        <div class="col">45</div>
+        <div class="col">05:53 PM</div>
+        <div class="col">28</div>
+    </div>
+<br>
+<div class ="updated-info">
+
+    <table class="table" id="entry">
+        <tbody>
+
+
+
+        </tbody>
+
+
+
+    </table>
+</div>
+
+<div class="delete-info">
+
+
+</div>
+
+
+    <!--Second container-->
+    <br>
+    <br>
+
+    <div class="grid-container">
+        <h5>Add Train</h5>
+    </div>
+
+    <br>
+    <strong>Train Name</strong>
+    <br>
+    <div>
+        <form action="/action_page.php">
+            <input type="text" id="tname">
+            <br>
+            <br>
+            <strong>Destination</strong>
+            <br>
+            <form>
+                <input type="text" id="des" placeholder=>
+
+                <br>
+                <br>
+                <strong>First Train Time (HH:mm - military time)</strong>
+                <br>
+                <form action="/action_page.php">
+                    <input type="text" id="first-train-time">
+
+                    <br>
+                    <br>
+                    <strong>Frequency (min)</strong>
+                    <br>
+                    <form action="/action_page.php">
+                        <input type="text" id="minutes">
+                        <br>
+                        <br>
+                        <button type="button" class="btn btn-primary" id="user-input">Submit</button>
+
+
+    </div>
+
+    <script src="assets/javascript/schedule.js"></script>
+    <!--JQuery-->
+    <script src="https://code.jquery.com/jquery.js"></script>
+
+    <!--momentjs link-->
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+
+    <!--Firebase link-->
+
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+
+</body>
+
+</html>
